@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 #from flask.ext.sqlalchemy import SQLAlchemy
 import sqlalchemy
 import sys
+from send_email import send_email
 
 app=Flask(__name__)
 #postgres database url
@@ -42,7 +43,8 @@ def success():
     if request.method=='POST':
         email=request.form["email_name"]
         secret=request.form["secret_text"]
-        print(request.form)
+        #send email
+        send_email(email, secret)
         #query the database model (Data) and filter to show when the value of email is not unique, will not show success but keep on index.html
         if db.session.query(Data).filter(Data.email_==email).count() == 0:
             
