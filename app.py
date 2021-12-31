@@ -19,7 +19,7 @@ class Data(db.Model):
     __tablename__="data"
     id = db.Column(db.Integer, primary_key=True)
     email_ = db.Column(db.String(120), unique=True)
-    secret_ = db.Column(db.String)
+    secret_ = db.Column(db.String(800), unique=True)
 
     def __init__(self, email_, secret_):
         self.email_=email_
@@ -43,12 +43,17 @@ def success():
         email=request.form["email_name"]
         secret=request.form["secret_text"]
         print(request.form)
-        #create object instance of data class
-        data=Data(email, secret)
-        #commit new row/changes to database
-        db.session.add(data)
-        db.session.commit()
-    return render_template("success.html")
+        #query the database model (Data) and filter to show when the value of email is not unique, will not show success but keep on index.html
+        if db.session.query(Data).filter(Data.email_==email).count() == 0:
+            
+            #create object instance of data class
+            data=Data(email, secret)
+            #commit new row/changes to database
+            db.session.add(data)
+            db.session.commit()
+            return render_template("success.html")
+        return render_template('index.html',
+        text="That email has been used already")
 
 
 

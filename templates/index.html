@@ -9,11 +9,21 @@
     <div class="container">
         <h1>Collecting data</h1>
         <h3>please fill the fields</h3>
+        <div class="unique">
+            {{text | safe}}
+        </div>
         <form action="{{url_for('success')}}" method="POST">
 
-            <input title="your email won't be shared" placeholder="enter your email" type="email" name="email_name" required>
+            <input title="your email won't be shared" 
+            placeholder="enter your email" 
+            type="email" 
+            name="email_name" required>
 
-            <input title="your secret's safe with me" placeholder="what's your secret?" type="text" min="10", max="800" name="secret_text" required>
+            <input title="your secret's safe with me" 
+            placeholder="what's your secret?" 
+            type="text"
+            name="secret_text" required>
+
             <button type="submit">Submit your Secret</button>
         </form>
     </div>
